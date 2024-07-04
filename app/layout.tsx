@@ -1,8 +1,11 @@
 import type { Metadata } from "next";
-import { Inter } from "next/font/google";
+import localFont from "next/font/local"
 import "./globals.css";
+import { cn } from "@/lib/utils";
 
-const inter = Inter({ subsets: ["latin"] });
+const calSans = localFont({
+  src: "./calsans.ttf"
+})
 
 export const metadata: Metadata = {
   title: "Create Next App",
@@ -16,7 +19,8 @@ export default function RootLayout({
 }>) {
   return (
     <html lang="en">
-      <body className={inter.className}>{children}</body>
+      <body className={cn(calSans.className, "overflow-x-clip w-[100vw] scroll-smooth")}>{children}</body>
     </html>
   );
 }
+
