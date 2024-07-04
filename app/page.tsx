@@ -20,6 +20,7 @@ import {
   Users,
 } from "lucide-react";
 import NumberTicker from "@/components/magicui/number-ticker";
+import Ripple from "@/components/magicui/ripple";
 
 export default function Home() {
   async function waitlistAction(formData: FormData) {
@@ -166,14 +167,17 @@ export default function Home() {
           </div>
         </div>
       </section>
-      <section className="w-full min-h-[97vh] flex flex-col justify-center items-center mt-3">
-        <h1 className="text-4xl text-center p-8 md:text-6xl md:w-3/5">
-          <TextGenerateEffect
-            words={
-              "AI that does the boring shit so you can do the cool and creative stuff"
-            }
-          />
-        </h1>
+      <section className="w-full h-screen flex flex-col justify-center items-center mt-3">
+        <div className="relative flex h-full w-full items-center justify-center overflow-hidden rounded-lg bg-background p-20 ">
+          <h1 className="text-4xl text-center p-8 md:text-6xl md:w-3/5 z-10">
+            <TextGenerateEffect
+              words={
+                "AI that does the boring shit so you can do the cool and creative stuff"
+              }
+            />
+          </h1>
+          <Ripple />
+        </div>
       </section>
 
       <section
