@@ -8,6 +8,10 @@ import { cn } from "@/lib/utils";
 
 export const WavyDotPattern = ({
   className,
+  gridWidth = 30,
+  gridHeight = 30,
+  dotWidth = 8,
+  dotHeight = 8,
 }) => {
   const [dotClickDisabled, setDotClickDisabled] = useState(false);
 
