@@ -18,8 +18,8 @@ import {
 import Ripple from "@/components/magicui/ripple";
 import AvatarCircles from "@/components/ui/avatar-circles";
 import { Input } from "@/components/ui/input";
-import WavyDotPattern from "@/components/ui/wavy-dot-background";
 import { TextGenerateEffect } from "@/components/ui/text-generate";
+import WavyDotPattern from "@/components/ui/wavy-dot-background";
 
 // Separate HomeSection component
 const HomeSection = ({ count }: { count: number }) => {
