@@ -1,15 +1,11 @@
 "use client";
+import { useEffect, useRef, useState } from "react";
 import Image from "next/image";
 import { Button } from "@/components/ui/button";
-import { TextGenerateEffect } from "@/components/ui/text-generate";
-import { Input } from "@/components/ui/input";
 import GradualSpacing from "@/components/ui/gradual-spacing";
-import AvatarCircles from "@/components/ui/avatar-circles";
-import WavyDotPattern from "@/components/ui/wavy-dot-background";
-
-import { insertUser, getCount } from "@/lib/db";
+import { useInView } from "framer-motion";
+import NumberTicker from "@/components/magicui/number-ticker";
 import { EmailGetCount, EmailPost } from "@/lib/api";
-import { useEffect, useState } from "react";
 import { AnimatedSubscribeButton } from "@/components/magicui/animated-subscribe-button";
 import {
   CheckIcon,
@@ -19,87 +15,106 @@ import {
   HomeIcon,
   Users,
 } from "lucide-react";
-import NumberTicker from "@/components/magicui/number-ticker";
 import Ripple from "@/components/magicui/ripple";
+import AvatarCircles from "@/components/ui/avatar-circles";
+import { Input } from "@/components/ui/input";
+import WavyDotPattern from "@/components/ui/wavy-dot-background";
+import { TextGenerateEffect } from "@/components/ui/text-generate";
+
+// Separate HomeSection component
+const HomeSection = ({ count }: { count: number }) => {
+  const ref = useRef(null);
+  const isInView = useInView(ref, { once: false, amount: 0.9 });
+  return (
+    <section
+      id="home"
+      ref={ref}
+      className={`hero h-[97vh] rounded-md md:rounded-[50px] overflow-clip flex flex-col gap-4 items-center m-3 ${
+        isInView ? "animate-inView" : "animate-outView"
+      }`}
+    >
+      <div className="flex w-full px-3 justify-around">
+        <div className="pt-10">
+          <div className="bg-black/70 backdrop-blur-3xl px-6 py-10 rounded-[45px] flex flex-col gap-10 text-white items-center text-2xl">
+            <a
+              href="#home"
+              className="cursor-pointer transition-all hover:bg-white hover:text-black rounded-full p-5"
+            >
+              <HomeIcon />
+            </a>
+            <a
+              href="#team"
+              className="cursor-pointer transition-all hover:bg-white hover:text-black rounded-full p-5"
+            >
+              <Users />
+            </a>
+            <a
+              href="#"
+              className="cursor-pointer transition-all hover:bg-white hover:text-black rounded-full p-5"
+            >
+              <Download />
+            </a>
+            <a
+              href="#waitlist"
+              className="cursor-pointer bg-white text-black rounded-full p-5"
+            >
+              <Heart />
+            </a>
+          </div>
+        </div>
+        <Image
+          src="/hero-screenshot.webp"
+          width={1920}
+          height={1080}
+          alt="Never gonna give you up, Never gonna let you down."
+          className={`min-w-[660px] md:w-5/6 -top-20 -left-9 md:left-0 relative backdrop-blur-lg drop-shadow-md ${
+            isInView ? "animate-imageInView" : "animate-imageOutView"
+          }`}
+        />
+        <h1 className="pt-10 text-6xl text-white">
+          <NumberTicker className="text-white" value={count} />
+        </h1>
+      </div>
+      <div
+        className={`transition-all ease-in-out duration-1000  flex flex-col gap-2 items-center relative  ${
+          isInView ? "lg:-top-48" : "lg:top-32"
+        }`}
+      >
+        <GradualSpacing
+          className="w-full text-7xl md:text-8xl font-bold text-center text-neutral-50"
+          text="PROJECT"
+        />
+        <GradualSpacing
+          className="w-full text-7xl md:text-8xl font-bold text-center text-neutral-50"
+          text="WEB"
+        />
+        <a href="#waitlist">
+          <Button className="w-fit px-7 rounded-full bg-neutral-50 bg-opacity-40 text-lg text-neutral-50 backdrop-blur-lg font-bold">
+            Join Waitlist
+          </Button>
+        </a>
+      </div>
+    </section>
+  );
+};
 
 export default function Home() {
-  async function waitlistAction(formData: FormData) {
-    await EmailPost(formData.get("email") as string);
-  }
   const [count, setCount] = useState<number>(0);
+  const [joinStatus, setJoinStatus] = useState<boolean>(false);
   useEffect(() => {
     EmailGetCount().then((data) => {
       setCount(data);
     });
   }, []);
-  // async function waitlistAction(formData: FormData){
-  //   "use server"
-  //   await EmailPost(formData.get("email") as string);
-  // }
-
+  async function waitlistAction(formData: FormData) {
+    formData.get("email") !== "" &&
+      (await EmailPost(formData.get("email") as string).then(() => {
+        setJoinStatus(true);
+      }));
+  }
   return (
     <main className="flex flex-col gap-0 overflow-hidden">
-      <section
-        id="home"
-        className="hero h-[97vh] rounded-md md:rounded-[50px] overflow-clip flex flex-col gap-4 items-center m-3"
-      >
-        <div className="flex w-full px-3 justify-around">
-          <div className="pt-10">
-            <div className="bg-black/70 backdrop-blur-3xl px-6 py-10 rounded-[45px] flex flex-col gap-10 text-white items-center text-2xl">
-              <a
-                href="#home"
-                className="cursor-pointer transition-all hover:bg-white hover:text-black rounded-full p-5"
-              >
-                <HomeIcon />
-              </a>
-              <a
-                href="#team"
-                className="cursor-pointer transition-all hover:bg-white hover:text-black rounded-full p-5"
-              >
-                <Users />
-              </a>
-              <a
-                href="#"
-                className="cursor-pointer transition-all hover:bg-white hover:text-black rounded-full p-5"
-              >
-                <Download />
-              </a>
-              <a
-                href="#waitlist"
-                className="cursor-pointer bg-white text-black rounded-full p-5"
-              >
-                <Heart />
-              </a>
-            </div>
-          </div>
-          <Image
-            src="/hero-screenshot.webp"
-            width={1920}
-            height={1080}
-            alt="Never gonna give you up, Never gonna let you down."
-            className="min-w-[660px] md:w-5/6 -top-20 lg:-top-64 -left-9 md:left-0 relative backdrop-blur-lg drop-shadow-md"
-          />
-          <h1 className="pt-10 text-6xl text-white">
-            <NumberTicker className="text-white" value={count} />
-          </h1>
-        </div>
-        <div className="flex flex-col gap-2 items-center relative lg:-top-48">
-          <GradualSpacing
-            className="w-full text-7xl md:text-8xl font-bold text-center text-neutral-50"
-            text="PROJECT"
-          />
-          <GradualSpacing
-            className="w-full text-7xl md:text-8xl font-bold text-center text-neutral-50"
-            text="WEB"
-          />
-          <a href="#waitlist">
-            <Button className="w-fit px-7 rounded-full bg-neutral-50 bg-opacity-40 text-lg text-neutral-50 backdrop-blur-lg font-bold">
-              Join Waitlist
-            </Button>
-          </a>
-        </div>
-      </section>
-
+      <HomeSection count={count} />
       <section className="m-3 min-h-[100vh] flex flex-col gap-4 items-center">
         <h1 className="text-3xl lg:text-5xl py-20 text-center text-[#468795]">
           A browser made for developers, by developers
@@ -205,7 +220,7 @@ export default function Home() {
             <AnimatedSubscribeButton
               buttonColor="#000000"
               buttonTextColor="#ffffff"
-              subscribeStatus={false}
+              subscribeStatus={joinStatus}
               initialText={
                 <span className="group inline-flex items-center">
                   Join Us!{" "}

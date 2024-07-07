@@ -109,3 +109,90 @@
 html {
   scroll-behavior: smooth;
 }
+
+.animate-inView {
+  transform: scale(1);
+  transition: transform 1s ease-in-out;
+  animation: cornerIn 1s forwards;
+}
+
+.animate-outView {
+  transform: scale(1.019);
+  transition: transform 1s ease-in-out;
+  animation: cornerOut 1s forwards;
+}
+
+.animate-imageInView {
+  /* transform: scale(1); */
+  transition: transform 1s ease-in-out;
+  animation: transformImageUp 1s forwards;
+}
+
+.animate-imageOutView {
+
+  transition: transform 1s ease-in-out;
+  animation: transformImageDown 1s forwards;
+}
+
+@keyframes cornerIn {
+  from {
+    border-radius: 0px;
+  }
+
+  to {
+    border-radius: 50px;
+  }
+}
+
+@keyframes cornerOut {
+  from {
+    border-radius: 50px;
+  }
+
+  to {
+    border-radius: 0px;
+  }
+}
+
+@keyframes transformImageUp {
+  from {
+    top: 64px;
+  }
+
+  to {
+    top: -256px;
+    transform: scale(.8);
+  }
+}
+
+@keyframes transformImageDown {
+  from {
+    top: -256px;
+    transform: scale(.8);
+
+  }
+
+  to {
+    top: 64px;
+  }
+}
+
+/* @keyframes fadeIn {
+  from {
+    opacity: 0;
+  }
+
+  to {
+    opacity: 1;
+  }
+}
+
+@keyframes fadeOut {
+  from {
+    opacity: 1;
+  }
+
+  to {
+    opacity: 0;
+  }
+} */

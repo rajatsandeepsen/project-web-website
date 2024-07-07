@@ -1,16 +1,10 @@
-"use client"
+"use client";
 import { useState } from "react";
 import { anime } from "react-anime";
 
 import { cn } from "@/lib/utils";
 
-interface WavyDotPatternProps {
-  className?: string;
-  gridWidth?: number;
-  gridHeight?: number;
-  dotWidth?: number;
-  dotHeight?: number;
-}
+
 
 export const WavyDotPattern = ({
   className,
@@ -18,10 +12,10 @@ export const WavyDotPattern = ({
   gridHeight,
   dotWidth,
   dotHeight,
-}: WavyDotPatternProps) => {
-  const [dotClickDisabled, setDotClickDisabled] = useState<boolean>(false);
+}) => {
+  const [dotClickDisabled, setDotClickDisabled] = useState(false);
 
-  const handleDotClick = (e: any, width: number, height: number) => {
+  const handleDotClick = (e, width, height) => {
     setDotClickDisabled(true);
 
     anime({
@@ -50,8 +44,8 @@ export const WavyDotPattern = ({
   const GRID_WIDTH = gridWidth ? gridWidth : 30;
   const GRID_HEIGHT = gridHeight ? gridHeight : 30;
 
-  const DOT_WIDTH = dotWidth ? "w-[" + dotWidth + "px]" : "w-[8px]";
-  const DOT_HEIGHT = dotHeight ? "h-[" + dotHeight + "px]" : "h-[8px]";
+  const DOT_WIDTH = dotWidth ? `w-[${dotWidth}px]` : "w-[8px]";
+  const DOT_HEIGHT = dotHeight ? `h-[${dotHeight}px]` : "h-[8px]";
 
   let index = 0;
 
@@ -72,11 +66,11 @@ export const WavyDotPattern = ({
               "dot-point",
               "rounded-xl bg-gradient-to-r from-[#d9cab3] to-black opacity-35 hover:from-black hover:to-black hover:opacity-100",
               DOT_WIDTH,
-              DOT_HEIGHT,
+              DOT_HEIGHT
             )}
             data-index={index}
           />
-        </button>,
+        </button>
       );
       index++;
     }
@@ -87,7 +81,7 @@ export const WavyDotPattern = ({
       style={{ gridTemplateColumns: `repeat(${GRID_WIDTH}, 1fr)` }}
       className={cn("max-w-3/4 overflow-clip absolute z-0 grid", className)}
     >
-      {dots.map((dot) => dot)}
+      {dots}
     </div>
   );
 };
