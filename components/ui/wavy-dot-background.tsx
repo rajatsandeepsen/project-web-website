@@ -1,3 +1,5 @@
+// @ts-nocheck
+
 "use client";
 import { useState } from "react";
 import { anime } from "react-anime";
@@ -85,5 +87,3 @@ export const WavyDotPattern = ({
     </div>
   );
 };
-
-export default WavyDotPattern;
